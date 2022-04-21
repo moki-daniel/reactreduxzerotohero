@@ -1,15 +1,32 @@
-import { AppBar, Button, Toolbar, Typography, Badge, } from '@mui/material'
-import React from 'react'
+import React, {useState} from 'react'
+import { AppBar, Button, Toolbar, Typography, Badge, Menu, MenuItem } from '@mui/material'
 import { Box } from '@mui/system'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const Navbar = () => {
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const openMenu = Boolean(anchorEl);
+
+    const handleClick = e => {
+        setAnchorEl(e.currentTarget);
+        console.log(e.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
   return (
     <>
     <AppBar sx={{
-        backgroundColor: "pink",
+        backgroundColor: "white",
     }}>
-        <Toolbar>
+        <Toolbar
+        sx={{
+            margin: "0 200px 0 200px",
+        }}>
+        
             <Box
             sx={{
                 display: "flex",
@@ -19,7 +36,7 @@ const Navbar = () => {
             }}
             component="div">
                 <Box>
-                    <img src={process.env.PUBLIC_URL + "/thasmartlab.png"}
+                    <img src={process.env.PUBLIC_URL + "/thasmartlabslogowithoutbg.png"}
                     width="100"
                     alt="logo" />
                 </Box>
@@ -28,7 +45,29 @@ const Navbar = () => {
                     display: "flex",
 
                 }}>
-                    <Typography sx={{marginRight:"50px", cursor: "Pointer", color: "#616161" }}>Projects</Typography>
+                    <Typography 
+                    sx={{
+                        marginRight:"50px", 
+                        cursor: "Pointer",
+                         color: "#616161" 
+                        }}
+                         aria-controls="projects-menu"
+                         aria-haspopup="true"
+                         aria-expanded={openMenu ? "true" : undefined}
+                         onClick={handleClick}
+                         > Our Products</Typography>
+                         {/* Projects dropdown menu */}
+                         <Menu
+                         id="projects-menu"
+                         anchorEl={anchorEl} 
+                         open={openMenu}
+                         onClose={handleClose}
+                         >
+                             <MenuItem onClick={handleClose}>thasmartLearn</MenuItem>
+                             <MenuItem onClick={handleClose}>thasmartBiz</MenuItem>
+                             <MenuItem onClick={handleClose}>thasmartChat</MenuItem>
+                             <MenuItem onClick={handleClose}>thasmartTravel</MenuItem>
+                         </Menu>
                     <Typography sx={{marginRight:"50px", cursor: "Pointer",color: "#616161"  }}>Services</Typography>
                     <Typography sx={{marginRight:"50px", cursor: "Pointer",color: "#616161"  }}>Scope</Typography>
                     <Typography sx={{marginRight:"50px", cursor: "Pointer",color: "#616161"  }}>Contact Us</Typography>
